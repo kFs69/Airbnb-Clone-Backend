@@ -1,4 +1,4 @@
-# Airbnb-Clone-Backend
+# Airbnb Clone - Backend
 Com esse projeto tive como objetivo evoluir minhas habilidate utilizando as principais tecnologias e conceitos, "tentei" recriar o backend do airbnb.
 
 Utilizei NodeJS e Typescript.
