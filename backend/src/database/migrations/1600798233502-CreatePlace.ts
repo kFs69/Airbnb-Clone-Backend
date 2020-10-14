@@ -68,7 +68,7 @@ export class CreatePlace1600798233502 implements MigrationInterface {
                 type: 'text[]',
               },
               {
-                name: 'deleted_at',
+                name: 'created_at',
                 type: 'timestamp',
                 default: 'now()'
               },
