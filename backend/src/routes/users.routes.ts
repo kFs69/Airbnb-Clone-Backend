@@ -39,20 +39,16 @@ userRouter.patch(
   authMiddleware,
   upload.single('avatar'),
   async (req, res) => {
-    try {
-      const updateUserAvatar = new UpdateUserAvatarService();
+    const updateUserAvatar = new UpdateUserAvatarService();
 
-      const user: IUser = await updateUserAvatar.execute({
-        user_id: req.user.id,
-        avatarFilename: req.file.filename
-      });
+    const user: IUser = await updateUserAvatar.execute({
+      user_id: req.user.id,
+      avatarFilename: req.file.filename
+    });
 
-      delete user.password;
+    delete user.password;
 
-      return res.json(user);
-    } catch (err) {
-      return res.status(400).json({ err: err.message });
-    }
+    return res.json(user);
   },
 );
 

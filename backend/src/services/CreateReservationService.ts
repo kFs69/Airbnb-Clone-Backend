@@ -3,7 +3,8 @@ import { differenceInCalendarDays, parseISO } from 'date-fns';
 
 import Reservation from '../models/Reservation';
 import Place from '../models/Place';
-import ReservationsRepository from '../repositories/ReservationsRepository';
+
+import AppError from '../errors/AppError';
 
 interface Request {
   user_id: string;
@@ -25,14 +26,14 @@ class CreateReservationService {
     })
 
     if(!place) {
-      throw new Error('Place not found!');
+      throw new AppError('Place not found!');
     }
 
     if(place.room_type == 1 || place.room_type == 2) {
       const numGuests = adult + children;
 
       if(numGuests > place.guests) {
-        throw new Error('Limit of guests exceded!');
+        throw new AppError('Limit of guests exceded!');
       }
 
       const reservedDate = await reservationsRepository.find({
@@ -43,7 +44,7 @@ class CreateReservationService {
       })
 
       if(reservedDate.length != 0) {
-        throw new Error('This date is already booked!')
+        throw new AppError('This date is already booked!')
       }
 
       const amount = differenceInCalendarDays(new Date(checkout), new Date(checkin)) * place.price;
@@ -75,7 +76,7 @@ class CreateReservationService {
         const numAvaliableGuests = place.guests - (item.adult + item.children);
 
         if(numGuests > numAvaliableGuests) {
-          throw new Error('Limit of guests exceded!');
+          throw new AppError('Limit of guests exceded!');
         }
       })
       

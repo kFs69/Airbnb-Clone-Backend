@@ -10,36 +10,27 @@ const reservationRepository = new ReservationsRepository();
 reservationRouter.use(authMiddleware);
 
 reservationRouter.post('/', async (req, res) => {
-  try {
-    const { user_id, place_id, checkin, checkout, adult, children, infants } = req.body;
+  const { user_id, place_id, checkin, checkout, adult, children, infants } = req.body;
 
-    const createReservation = new CreateReservationService();
+  const createReservation = new CreateReservationService();
 
-    const reservation = await createReservation.execute({
-      user_id, 
-      place_id, 
-      checkin, 
-      checkout, 
-      adult, 
-      children, 
-      infants
-    })
+  const reservation = await createReservation.execute({
+    user_id, 
+    place_id, 
+    checkin, 
+    checkout, 
+    adult, 
+    children, 
+    infants
+  })
 
-    return res.json(reservation);
-  } catch (err) {
-    return res.status(400).json(err.message);
-  }
+  return res.json(reservation);
 });
 
 reservationRouter.get('/', async (req, res) => {
-  try {
+  const reservation = await reservationRepository.all();
 
-    const reservation = await reservationRepository.all();
-
-    return res.json(reservation);
-  } catch(err) {
-    return res.json({ err: err.message });
-  }
+  return res.json(reservation);
 })
 
 export default reservationRouter;

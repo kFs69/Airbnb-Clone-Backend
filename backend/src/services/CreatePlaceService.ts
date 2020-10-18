@@ -1,6 +1,9 @@
 import { getRepository } from 'typeorm';
 
+import AppError from '../errors/AppError';
+
 import Place from '../models/Place';
+
 
 interface Request {
   host_id: string;
@@ -45,11 +48,11 @@ class CreatePlaceService {
     const placeRepository = getRepository(Place);
 
     if(!title || !description ||!guests ||!bath ||!price || !room_type) {
-      throw new Error('Fill all the fields');
+      throw new AppError('Fill all the fields');
     }
 
     if(!state && !territory) {
-      throw new Error('Fill state or territory');
+      throw new AppError('Fill state or territory');
     }
 
     const place = placeRepository.create({
